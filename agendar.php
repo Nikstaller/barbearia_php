@@ -1,66 +1,111 @@
 <?php
-$nome = isset($_GET['nome']) ? $_GET['nome'] : '';
-$numero = isset($_GET['numero']) ? $_GET['numero'] : '';
-$observacao = isset($_GET['observacao']) ? $_GET['observacao'] : '';
-$servico = isset($_GET['servico']) ? $_GET['servico'] : '';
-
-$mensagem = "";
-if (!empty($nome) && !empty($servico)) {
-    $mensagem = "Busca realizada para: " . htmlspecialchars($nome) . 
-                " | Serviço: " . htmlspecialchars($servico);
-}
 date_default_timezone_set('America/Sao_Paulo');
 
+$nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+$numero = isset($_POST['numero']) ? $_POST['numero'] : '';
+$observacao = isset($_POST['observacao']) ? $_POST['observacao'] : '';
+$servico = isset($_POST['servico']) ? $_POST['servico'] : '';
+$data = isset($_POST['data-agendamento']) ? $_POST['data-agendamento'] : '';
+$tempo = isset($_POST['horario']) ? $_POST['horario'] : '';
+
+$mensagem = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if (
+        empty($nome) ||
+        empty($numero) ||
+        empty($servico) ||
+        empty($data) ||
+        empty($tempo)
+    ) {
+
+        $mensagem = "Preencha todos os campos obrigatórios.";
+
+    } else {
+
+        $mensagem = "Agendamento realizado com sucesso para: " .
+                    htmlspecialchars($nome);
+
+    }
+}
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu do Cliente</title>
 </head>
+
 <body>
-    <h1>Menu do cliente</h1>
-    <form action="" method="GET">
-        <label>Qual o seu nome?</label><br>
-        <input type="text" name="nome" 
-               value="<?php echo htmlspecialchars($nome, ENT_QUOTES, 'UTF-8'); ?>"><br><br>
 
-        <label>Qual seu número telefônico?</label><br>
-        <input type="text" name="numero" 
-               value="<?php echo htmlspecialchars($numero, ENT_QUOTES, 'UTF-8'); ?>"><br><br>
+    <h1>Menu do Cliente</h1>
 
-        <label>Serviço:</label><br>
-        <select name="servico">
+    <?php if (!empty($mensagem)) : ?>
+        <p><?php echo $mensagem; ?></p>
+    <?php endif; ?>
+
+    <form action="" method="POST">
+
+        <label for="nome">Qual o seu nome?</label><br>
+        <input type="text"
+               id="nome"
+               name="nome"
+               value="<?php echo htmlspecialchars($nome, ENT_QUOTES, 'UTF-8'); ?>">
+        <br><br>
+
+        <label for="numero">Qual seu número telefônico?</label><br>
+        <input type="text"
+               id="numero"
+               name="numero"
+               value="<?php echo htmlspecialchars($numero, ENT_QUOTES, 'UTF-8'); ?>">
+        <br><br>
+
+        <label for="servico">Serviço:</label><br>
+        <select name="servico" id="servico">
             <option value="">Selecione...</option>
-            <option value="corte" <?= $servico == 'corte' ? 'selected' : '' ?>>Corte Masculino</option>
-            <option value="barba" <?= $servico == 'barba' ? 'selected' : '' ?>>Barba</option>
-            <option value="combo" <?= $servico == 'combo' ? 'selected' : '' ?>>Corte + Barba</option>
-        </select><br><br>
 
-        <label>Data</label><br>
-          <form>
-     <label for="data-agendamento">Data de Agendamento:</label>
-      <input type="date" id="data-agendamento" name="data-agendamento">
+            <option value="corte"
+                <?php echo ($servico == 'corte') ? 'selected' : ''; ?>>
+                Corte Masculino
+            </option>
 
+            <option value="barba"
+                <?php echo ($servico == 'barba') ? 'selected' : ''; ?>>
+                Barba
+            </option>
 
-         </form>
-        <label>Observações</label><br>
-        <textarea name="observacao"><?php echo htmlspecialchars($observacao, ENT_QUOTES, 'UTF-8'); ?></textarea><br><br>
+            <option value="combo"
+                <?php echo ($servico == 'combo') ? 'selected' : ''; ?>>
+                Corte + Barba
+            </option>
+        </select>
+        <br><br>
+
+        <label for="data-agendamento">Data de Agendamento:</label><br>
+        <input type="date"
+               id="data-agendamento"
+               name="data-agendamento"
+               value="<?php echo htmlspecialchars($data); ?>">
+        <br><br>
+
+        <label for="horario">Selecionar Horário:</label><br>
+        <input type="time"
+               id="horario"
+               name="horario"
+               value="<?php echo htmlspecialchars($tempo); ?>">
+        <br><br>
+
+        <label for="observacao">Observações:</label><br>
+        <textarea id="observacao"
+                  name="observacao"><?php echo htmlspecialchars($observacao, ENT_QUOTES, 'UTF-8'); ?></textarea>
+        <br><br>
 
         <input type="submit" value="Enviar">
+
     </form>
-    
 
-
-
-
-
-
-    
-<?php
-
-
-?>
 </body>
 </html>
