@@ -14,5 +14,5 @@ else
 echo "obrigado por nos consultar";
     
  
-
+echo "Vamos Explodir Geral";
 ?>
