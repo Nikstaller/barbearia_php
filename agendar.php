@@ -107,5 +107,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     </form>
 
+   
+
 </body>
 </html>
+
+
+ <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($mensagem) == false) : ?>
+
+    <h2>Dados do Agendamento</h2>
+
+    <p><strong>Nome:</strong> <?php echo htmlspecialchars($nome); ?></p>
+
+    <p><strong>Telefone:</strong> <?php echo htmlspecialchars($numero); ?></p>
+
+    <p><strong>Serviço:</strong> <?php echo htmlspecialchars($servico); ?></p>
+
+    <p><strong>Data:</strong> <?php echo htmlspecialchars($data); ?></p>
+
+    <p><strong>Horário:</strong> <?php echo htmlspecialchars($tempo); ?></p>
+
+    <p><strong>Observação:</strong> <?php echo htmlspecialchars($observacao); ?></p>
+
+<?php endif; ?>
+
